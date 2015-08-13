@@ -14,17 +14,17 @@ else
 fi
 
 
-if [ "${CLEAN_PERIOD}" == "**None**" ]; then
+if [ ! "${CLEAN_PERIOD}" ]; then
     echo "=> CLEAN_PERIOD not defined, use the default value."
     CLEAN_PERIOD=1800
 fi
 
-if [ "${DELAY_TIME}" == "**None**" ]; then
+if [ ! "${DELAY_TIME}" ]; then
     echo "=> DELAY_TIME not defined, use the default value."
     DELAY_TIME=1800
 fi
 
-if [ "${KEEP_IMAGES}" == "**None**" ]; then
+if [ ! "${KEEP_IMAGES}" ]; then
     unset KEEP_IMAGES
 fi
 
@@ -34,7 +34,7 @@ trap '{ echo "User Interupt."; exit 1; }' SIGINT
 while [ 1 ]
 do
     # Cleanup unused volumes
-    /docker-cleanup-volumes.sh
+    docker-cleanup-volumes.sh
 
     # Cleanup exited containers
     EXITED_CONTAINERS_IDS="`docker ps -a -q -f status=exited | xargs echo`"
